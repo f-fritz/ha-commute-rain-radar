@@ -1,0 +1,19 @@
+[project]
+name = "commute-rain"
+version = "0.1.0"
+description = "Rain along a cycling commute per departure time, from DWD radar via Bright Sky"
+requires-python = ">=3.12"
+dependencies = ["numpy", "requests", "matplotlib"]
+
+[project.optional-dependencies]
+dev = ["pytest", "ipykernel", "nbformat", "nbstripout"]
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["commute_rain"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

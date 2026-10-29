@@ -1,0 +1,133 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Commute Rain",
+        "description": "Shared backend for all your commutes: one radar and one forecast request per update, used by every commute. Add commutes afterwards with \"Add commute\"."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Commute Rain is already set up. Add more commutes to the existing entry."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Commute Rain options",
+        "data": {
+          "max_rain_mm_per_h": "Rain limit",
+          "always_poll_radar": "Poll radar all day",
+          "demo_mode": "Demo mode"
+        },
+        "data_description": {
+          "max_rain_mm_per_h": "A departure only counts as best if the rain never exceeds this on any part of the ride. The radar comes in steps of 0.12 mm/h.",
+          "always_poll_radar": "Off: the radar is fetched every 5 min only from 2 h before a departure window until it ends.",
+          "demo_mode": "Synthetic rain front crossing your routes every 90 min, instead of the live radar. For testing on dry days."
+        }
+      }
+    }
+  },
+  "config_subentries": {
+    "commute": {
+      "entry_type": "Commute",
+      "initiate_flow": {
+        "user": "Add commute",
+        "reconfigure": "Reconfigure commute"
+      },
+      "step": {
+        "user": {
+          "title": "Commute",
+          "description": "A commute has an outbound leg (e.g. to work) and a return leg (home).",
+          "data": {
+            "name": "Name",
+            "segment_mode": "Split route by",
+            "segment_size": "Segment size"
+          },
+          "data_description": {
+            "segment_size": "km when splitting by distance, minutes when splitting by time."
+          }
+        },
+        "outbound": {
+          "title": "Outbound leg",
+          "description": "Current track: {current_gpx}",
+          "data": {
+            "gpx_file": "GPX track",
+            "ride_duration_min": "Ride duration",
+            "forecast_start": "Forecast window start",
+            "forecast_end": "Forecast window end",
+            "radar_start": "Radar window start",
+            "radar_end": "Radar window end",
+            "radar_max_ahead_min": "Radar look-ahead"
+          },
+          "data_description": {
+            "gpx_file": "Recorded ride. Timestamps give the speed profile; without them, set the ride duration.",
+            "ride_duration_min": "Leave empty to use the GPX timestamps.",
+            "forecast_start": "Departure window for the 48 h forecast.",
+            "radar_start": "Departure window for the 2 h radar. Empty start = from now.",
+            "radar_max_ahead_min": "Rolling window: only departures up to this many minutes from now. Empty = no limit."
+          }
+        },
+        "return": {
+          "title": "Return leg",
+          "description": "Current track: {current_gpx}",
+          "data": {
+            "gpx_file": "GPX track",
+            "reverse_outbound": "Use the outbound track reversed",
+            "ride_duration_min": "Ride duration",
+            "forecast_start": "Forecast window start",
+            "forecast_end": "Forecast window end",
+            "radar_start": "Radar window start",
+            "radar_end": "Radar window end",
+            "radar_max_ahead_min": "Radar look-ahead"
+          },
+          "data_description": {
+            "gpx_file": "Recorded ride home. Leave empty to keep the current track or to reverse the outbound one.",
+            "ride_duration_min": "Leave empty to use the GPX timestamps.",
+            "forecast_start": "Departure window for the 48 h forecast.",
+            "radar_start": "Departure window for the 2 h radar. Empty start = from now.",
+            "radar_max_ahead_min": "Rolling window: only departures up to this many minutes from now. Empty = no limit."
+          }
+        }
+      },
+      "error": {
+        "invalid_gpx": "The file is not a valid GPX track.",
+        "no_timestamps": "The GPX track has no timestamps. Set the ride duration.",
+        "gpx_required": "Upload a GPX track or use the outbound track reversed.",
+        "forecast_window_order": "The forecast window must end after it starts."
+      },
+      "abort": {
+        "reconfigure_successful": "Commute updated."
+      }
+    }
+  },
+  "selector": {
+    "segment_mode": {
+      "options": {
+        "distance": "Distance (km)",
+        "time": "Riding time (min)"
+      }
+    },
+    "demo_mode": {
+      "options": {
+        "off": "Off (live radar)",
+        "synthetic": "Synthetic rain front"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "rain_now": { "name": "Rain if leaving now ({leg})" },
+      "best_departure": { "name": "Best departure ({leg})" },
+      "best_departure_rain": { "name": "Rain at best departure ({leg})" },
+      "forecast_rain": { "name": "Forecast rain next window ({leg})" },
+      "forecast_best_departure": { "name": "Forecast best departure ({leg})" },
+      "forecast_probability": { "name": "Forecast rain probability ({leg})" }
+    },
+    "binary_sensor": {
+      "ride_within_limit": { "name": "Ride within rain limit ({leg})" }
+    },
+    "image": {
+      "heatmap": { "name": "Rain heatmap ({leg})" }
+    }
+  }
+}

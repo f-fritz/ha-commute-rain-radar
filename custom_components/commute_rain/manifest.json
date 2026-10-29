@@ -1,0 +1,14 @@
+{
+  "domain": "commute_rain",
+  "name": "Commute Rain",
+  "codeowners": ["@f-fritz"],
+  "config_flow": true,
+  "dependencies": ["file_upload"],
+  "documentation": "https://github.com/f-fritz/ff-commute-rain-radar",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/f-fritz/ff-commute-rain-radar/issues",
+  "requirements": ["matplotlib==3.11.2"],
+  "single_config_entry": true,
+  "version": "0.1.0"
+}

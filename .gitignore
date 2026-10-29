@@ -1,0 +1,12 @@
+CLAUDE.md
+.venv/
+__pycache__/
+*.egg-info/
+data/cache/
+routes/**/*.gpx
+# Made-up sample routes (scripts/make_sample_routes.py); real tracks stay ignored.
+!routes/to_work.gpx
+!routes/from_work.gpx
+.pytest_cache/
+.venv-ha/
+.DS_Store
